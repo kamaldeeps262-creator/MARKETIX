@@ -545,6 +545,11 @@ header[data-testid="stHeader"] { background: transparent !important; }
 """
 
 
+def _clean(html: str) -> str:
+    """Flattens HTML into an unindented string to prevent Markdown from interpreting indentation as code blocks."""
+    return " ".join(line.strip() for line in html.strip().splitlines() if line.strip())
+
+
 def inject_styles():
     """Injects the full MARKETIX CSS into the Streamlit page."""
     import streamlit as st
@@ -553,52 +558,52 @@ def inject_styles():
 
 def kpi_card(icon: str, value: str, label: str, delta: str = "") -> str:
     delta_html = f'<div class="kpi-delta">▲ {delta}</div>' if delta else ""
-    return f"""
+    return _clean(f"""
     <div class="kpi-card">
         <div class="kpi-icon">{icon}</div>
         <div class="kpi-value">{value}</div>
         <div class="kpi-label">{label}</div>
         {delta_html}
-    </div>"""
+    </div>""")
 
 
 def kpi_grid(*cards: str) -> str:
-    return f'<div class="kpi-grid">{"".join(cards)}</div>'
+    return _clean(f'<div class="kpi-grid">{"".join(cards)}</div>')
 
 
 def section_header(icon_html: str, title: str, subtitle: str = "", color: str = "#3B82F6") -> str:
     icon_bg = color + "20"
-    return f"""
+    return _clean(f"""
     <div class="section-header">
         <div class="section-icon" style="background:{icon_bg};">{icon_html}</div>
         <div>
             <div class="section-title">{title}</div>
             {"" if not subtitle else f'<div class="section-subtitle">{subtitle}</div>'}
         </div>
-    </div>"""
+    </div>""")
 
 
 def hero_banner(title: str, subtitle: str, description: str, badges: list[str]) -> str:
     badge_html = "".join(f'<span class="hero-badge">{b}</span>' for b in badges)
-    return f"""
+    return _clean(f"""
     <div class="main-hero">
         <div class="hero-title">{title}</div>
         <div class="hero-subtitle">{subtitle}</div>
         <div class="hero-desc">{description}</div>
         <div class="hero-badges">{badge_html}</div>
-    </div>"""
+    </div>""")
 
 
 def status_pill(label: str, kind: str = "success") -> str:
-    return f"""
+    return _clean(f"""
     <div class="status-pill pill-{kind}">
         <span class="dot"></span>
         {label}
-    </div>"""
+    </div>""")
 
 
 def health_row(dot_color: str, label: str, desc: str, value: str = "") -> str:
-    return f"""
+    return _clean(f"""
     <div class="health-row">
         <div class="health-dot {dot_color}"></div>
         <div class="health-info">
@@ -606,22 +611,22 @@ def health_row(dot_color: str, label: str, desc: str, value: str = "") -> str:
             <div class="health-desc">{desc}</div>
         </div>
         {"" if not value else f'<div class="health-value">{value}</div>'}
-    </div>"""
+    </div>""")
 
 
 def module_card(num: str, emoji: str, title: str, desc: str) -> str:
-    return f"""
+    return _clean(f"""
     <div class="module-card">
         <div class="module-num">Module {num}</div>
         <div class="module-emoji">{emoji}</div>
         <div class="module-title">{title}</div>
         <div class="module-desc">{desc}</div>
-    </div>"""
+    </div>""")
 
 
 def insight_card(title: str, finding: str, evidence: str, recommendation: str, impact: str, priority: str) -> str:
     prio_cls = priority.lower()
-    return f"""
+    return _clean(f"""
     <div class="insight-card priority-{prio_cls}">
         <div class="insight-header">
             <div class="insight-title">🎯 {title}</div>
@@ -643,11 +648,11 @@ def insight_card(title: str, finding: str, evidence: str, recommendation: str, i
             <span class="insight-label">🚀 Impact:</span>
             <span class="insight-text">{impact}</span>
         </div>
-    </div>"""
+    </div>""")
 
 
 def persona_card(emoji: str, name: str, size: int, income: float, spend: float, response_rate: float, strategy: str, delay: float = 0) -> str:
-    return f"""
+    return _clean(f"""
     <div class="persona-card" style="animation-delay:{delay}s">
         <div class="persona-emoji">{emoji}</div>
         <div class="persona-name">{name}</div>
@@ -656,11 +661,11 @@ def persona_card(emoji: str, name: str, size: int, income: float, spend: float, 
         <div class="persona-stat">🛒 Avg Spend: <strong>${spend:,.0f}</strong></div>
         <div class="persona-stat">📈 Response Rate: <strong>{response_rate:.1f}%</strong></div>
         <div class="persona-strategy">💡 {strategy}</div>
-    </div>"""
+    </div>""")
 
 
 def animated_progress(label: str, pct: float, color: str = "#3B82F6") -> str:
-    return f"""
+    return _clean(f"""
     <div class="animated-bar-wrap">
         <div class="animated-bar-label">
             <span>{label}</span>
@@ -669,7 +674,7 @@ def animated_progress(label: str, pct: float, color: str = "#3B82F6") -> str:
         <div class="animated-bar-bg">
             <div class="animated-bar-fill" style="width:{pct}%;background:{color};"></div>
         </div>
-    </div>"""
+    </div>""")
 
 
 def divider() -> str:

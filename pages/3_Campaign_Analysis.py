@@ -35,12 +35,12 @@ if df is None:
 # ── HEADER ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        📈 Campaign Performance Analysis
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Comparative benchmarking across all 6 marketing campaigns and purchase acquisition channels.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+📈 Campaign Performance Analysis
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Comparative benchmarking across all 6 marketing campaigns and purchase acquisition channels.
+</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -65,20 +65,20 @@ with col_ban:
     if best_cmp:
         st.markdown(f"""
 <div style='background:linear-gradient(135deg, #ECFDF5, #D1FAE5);border-radius:14px;padding:1.4rem;border:1px solid #34D399;box-shadow:0 4px 15px rgba(16,185,129,0.1);animation:floatUp 0.5s ease both;'>
-    <div style='font-size:1.15rem;font-weight:800;color:#065F46;margin-bottom:0.4rem;'>
-        🏆 Benchmark Winner: {best_cmp['name']}
-    </div>
-    <div style='color:#047857;font-size:0.88rem;line-height:1.5;'>
-        Achieved the highest conversion rate at <b>{best_cmp['response_rate']:.2f}%</b>, securing <b>{best_cmp['responses']:,} positive conversions</b> out of {camp_results['total_contacted']:,} targeted customers.
-    </div>
+<div style='font-size:1.15rem;font-weight:800;color:#065F46;margin-bottom:0.4rem;'>
+🏆 Benchmark Winner: {best_cmp['name']}
+</div>
+<div style='color:#047857;font-size:0.88rem;line-height:1.5;'>
+Achieved the highest conversion rate at <b>{best_cmp['response_rate']:.2f}%</b>, securing <b>{best_cmp['responses']:,} positive conversions</b> out of {camp_results['total_contacted']:,} targeted customers.
+</div>
 </div>
 """, unsafe_allow_html=True)
 
 with col_form:
     st.markdown("""
 <div style='background:white;border-radius:14px;padding:1.3rem;border:1px solid #E2E8F0;box-shadow:0 2px 10px rgba(0,0,0,0.03);animation:floatUp 0.6s ease both;'>
-    <div style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.4rem;'>Mathematical Formulation</div>
-    <div style='font-size:0.78rem;color:#64748B;margin-bottom:0.6rem;'>Tracking efficiency of targeted conversion:</div>
+<div style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.4rem;'>Mathematical Formulation</div>
+<div style='font-size:0.78rem;color:#64748B;margin-bottom:0.6rem;'>Tracking efficiency of targeted conversion:</div>
 """, unsafe_allow_html=True)
     st.latex(r"\text{Response Rate} = \frac{\text{Positive Responses}}{\text{Customers Contacted}} \times 100")
     st.markdown("</div>", unsafe_allow_html=True)

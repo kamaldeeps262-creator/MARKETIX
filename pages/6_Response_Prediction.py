@@ -43,12 +43,12 @@ if load_model() is None:
 # ── HEADER ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        🤖 Campaign Response Prediction
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Balanced Logistic Regression — stratified training, ROC-AUC-focused evaluation.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+🤖 Campaign Response Prediction
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Balanced Logistic Regression — stratified training, ROC-AUC-focused evaluation.
+</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -116,12 +116,12 @@ with tab_single:
         with r_left:
             st.markdown(f"""
 <div class="pred-card {card_cls}">
-    <div style='font-size:2.5rem;'>{emoji}</div>
-    <div class="pred-verdict" style='color:{color};'>{verdict}</div>
-    <div class="pred-pct" style='color:{color};'>{pos_pct:.1f}%</div>
-    <div class="pred-label">Positive response probability<br>
-        <small>Threshold: {threshold}% | Model: {result.get('model_version','1.0-logreg')}</small>
-    </div>
+<div style='font-size:2.5rem;'>{emoji}</div>
+<div class="pred-verdict" style='color:{color};'>{verdict}</div>
+<div class="pred-pct" style='color:{color};'>{pos_pct:.1f}%</div>
+<div class="pred-label">Positive response probability<br>
+<small>Threshold: {threshold}% | Model: {result.get('model_version','1.0-logreg')}</small>
+</div>
 </div>""", unsafe_allow_html=True)
 
         with r_right:

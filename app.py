@@ -81,12 +81,12 @@ with st.sidebar:
     st.markdown("<hr style='border-color:rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
     st.markdown("""
 <p style='color:#94A3B8;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:0.6rem;'>
-    Certificate Alignment
+Certificate Alignment
 </p>
 <p style='color:#CBD5E1;font-size:0.82rem;line-height:1.6;'>
-    🔵 <b style='color:#93C5FD;'>BCG X</b> — Decision Analytics<br>
-    🟣 <b style='color:#C4B5FD;'>IBM</b> — Data Analysis · Python<br>
-    🟢 <b style='color:#6EE7B7;'>Deloitte</b> — Business Simulation
+🔵 <b style='color:#93C5FD;'>BCG X</b> — Decision Analytics<br>
+🟣 <b style='color:#C4B5FD;'>IBM</b> — Data Analysis · Python<br>
+🟢 <b style='color:#6EE7B7;'>Deloitte</b> — Business Simulation
 </p>
 <p style='color:#475569;font-size:0.72rem;margin-top:0.8rem;'>B.Tech 3rd-Year · Industrial Training</p>
 """, unsafe_allow_html=True)
@@ -145,10 +145,10 @@ h1, h2 = st.columns([3, 2])
 with h1:
     st.markdown("""
 <p style='font-size:1.05rem;font-weight:800;color:#0F172A;margin-bottom:0.3rem;'>
-    Five-Layer Enterprise Architecture
+Five-Layer Enterprise Architecture
 </p>
 <p style='font-size:0.82rem;color:#64748B;margin-bottom:0.8rem;'>
-    Clean decoupled design ensures maintainability, testability, and presentation resilience.
+Clean decoupled design ensures maintainability, testability, and presentation resilience.
 </p>
 """, unsafe_allow_html=True)
     layers = [
@@ -161,20 +161,20 @@ with h1:
     for color, name, desc in layers:
         st.markdown(f"""
 <div style='display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.9rem;
-            background:white;border-radius:10px;border:1px solid #E2E8F0;
-            margin-bottom:0.5rem;box-shadow:0 1px 6px rgba(0,0,0,0.04);
-            animation:floatUp 0.5s ease both;'>
-    <div style='width:10px;height:36px;border-radius:5px;background:{color};flex-shrink:0;'></div>
-    <div>
-        <div style='font-size:0.82rem;font-weight:700;color:#0F172A;'>{name} Layer</div>
-        <div style='font-size:0.74rem;color:#64748B;'>{desc}</div>
-    </div>
+background:white;border-radius:10px;border:1px solid #E2E8F0;
+margin-bottom:0.5rem;box-shadow:0 1px 6px rgba(0,0,0,0.04);
+animation:floatUp 0.5s ease both;'>
+<div style='width:10px;height:36px;border-radius:5px;background:{color};flex-shrink:0;'></div>
+<div>
+<div style='font-size:0.82rem;font-weight:700;color:#0F172A;'>{name} Layer</div>
+<div style='font-size:0.74rem;color:#64748B;'>{desc}</div>
+</div>
 </div>""", unsafe_allow_html=True)
 
 with h2:
     st.markdown("""
 <p style='font-size:1.05rem;font-weight:800;color:#0F172A;margin-bottom:0.3rem;'>
-    Live System Status
+Live System Status
 </p>
 """, unsafe_allow_html=True)
     # ML metrics if available

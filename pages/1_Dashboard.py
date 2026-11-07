@@ -36,12 +36,12 @@ if df is None:
 # ── PAGE HEADER ───────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        📊 Marketing Intelligence Dashboard
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Real-time executive performance monitoring across campaigns, customers and channels.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+📊 Marketing Intelligence Dashboard
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Real-time executive performance monitoring across campaigns, customers and channels.
+</p>
 </div>
 """, unsafe_allow_html=True)
 

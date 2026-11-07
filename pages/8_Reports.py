@@ -36,12 +36,12 @@ if df is None:
 # ── HEADER ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        📑 Reports & Analytical Exports
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Generate high-resolution executive PDF briefs and export structured analytical datasets.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+📑 Reports & Analytical Exports
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Generate high-resolution executive PDF briefs and export structured analytical datasets.
+</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -65,16 +65,16 @@ st.markdown(section_header("📄", "Official Executive PDF Brief (ReportLab Engi
 with st.container():
     st.markdown("""
 <div style='background:linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%);border-radius:16px;padding:2rem;color:white;margin-bottom:1.2rem;box-shadow:0 8px 30px rgba(30,58,138,0.25);animation:floatUp 0.5s ease both;'>
-    <div style='display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;'>
-        <div style='font-size:2rem;'>🏛️</div>
-        <div>
-            <div style='font-size:1.3rem;font-weight:800;'>MARKETIX Executive Marketing Intelligence Brief</div>
-            <div style='color:#93C5FD;font-size:0.85rem;'>Automated ReportLab compilation · Formatted for corporate supervisors and academic evaluators</div>
-        </div>
-    </div>
-    <div style='color:#E2E8F0;font-size:0.88rem;line-height:1.6;margin-bottom:1.2rem;'>
-        Contains formal performance indicator tables, multi-wave campaign conversion benchmarks, top customer segment characteristics, and prioritized strategic initiatives distinguishing empirical correlation from causality.
-    </div>
+<div style='display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;'>
+<div style='font-size:2rem;'>🏛️</div>
+<div>
+<div style='font-size:1.3rem;font-weight:800;'>MARKETIX Executive Marketing Intelligence Brief</div>
+<div style='color:#93C5FD;font-size:0.85rem;'>Automated ReportLab compilation · Formatted for corporate supervisors and academic evaluators</div>
+</div>
+</div>
+<div style='color:#E2E8F0;font-size:0.88rem;line-height:1.6;margin-bottom:1.2rem;'>
+Contains formal performance indicator tables, multi-wave campaign conversion benchmarks, top customer segment characteristics, and prioritized strategic initiatives distinguishing empirical correlation from causality.
+</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -103,11 +103,11 @@ exp_c1, exp_c2 = st.columns(2)
 with exp_c1:
     st.markdown(f"""
 <div style='background:white;border-radius:14px;padding:1.4rem;border:1px solid #E2E8F0;box-shadow:0 2px 10px rgba(0,0,0,0.04);margin-bottom:1rem;animation:floatUp 0.5s ease both;'>
-    <div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>🧹 Cleaned Marketing Dataset</div>
-    <div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
-        Includes imputed income, normalized categoricals, and engineered domain KPIs (<code>Total_Spending</code>, <code>Total_Purchases</code>, <code>Children</code>).<br>
-        <b>Size:</b> {len(df):,} records · {df.shape[1]} features
-    </div>
+<div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>🧹 Cleaned Marketing Dataset</div>
+<div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
+Includes imputed income, normalized categoricals, and engineered domain KPIs (<code>Total_Spending</code>, <code>Total_Purchases</code>, <code>Children</code>).<br>
+<b>Size:</b> {len(df):,} records · {df.shape[1]} features
+</div>
 </div>
 """, unsafe_allow_html=True)
     csv_clean = df.to_csv(index=False).encode("utf-8")
@@ -116,11 +116,11 @@ with exp_c1:
 with exp_c2:
     st.markdown(f"""
 <div style='background:white;border-radius:14px;padding:1.4rem;border:1px solid #E2E8F0;box-shadow:0 2px 10px rgba(0,0,0,0.04);margin-bottom:1rem;animation:floatUp 0.6s ease both;'>
-    <div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>📈 Campaign Performance Summary</div>
-    <div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
-        Aggregated conversion metrics, contacts, and response percentages across all 6 evaluated campaign waves.<br>
-        <b>Waves:</b> {len(camp_results['summary_table'])} campaigns evaluated
-    </div>
+<div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>📈 Campaign Performance Summary</div>
+<div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
+Aggregated conversion metrics, contacts, and response percentages across all 6 evaluated campaign waves.<br>
+<b>Waves:</b> {len(camp_results['summary_table'])} campaigns evaluated
+</div>
 </div>
 """, unsafe_allow_html=True)
     csv_camp = camp_results["summary_table"].to_csv(index=False).encode("utf-8")
@@ -132,11 +132,11 @@ with exp_c3:
     seg_text = f"<b>Personas:</b> {seg_df['Cluster'].nunique()} clusters identified" if seg_df is not None else "Run Module 5 to generate segmentation."
     st.markdown(f"""
 <div style='background:white;border-radius:14px;padding:1.4rem;border:1px solid #E2E8F0;box-shadow:0 2px 10px rgba(0,0,0,0.04);margin-bottom:1rem;animation:floatUp 0.7s ease both;'>
-    <div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>🎯 Customer Segmentation Personas</div>
-    <div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
-        K-Means cluster assignments, standardized features, and assigned marketing personas.<br>
-        {seg_text}
-    </div>
+<div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>🎯 Customer Segmentation Personas</div>
+<div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
+K-Means cluster assignments, standardized features, and assigned marketing personas.<br>
+{seg_text}
+</div>
 </div>
 """, unsafe_allow_html=True)
     if seg_df is not None:
@@ -150,11 +150,11 @@ with exp_c4:
     score_text = f"<b>Scored:</b> {len(score_df):,} leads scored with Logistic Regression" if score_df is not None else "Run Batch Scoring in Module 6 to generate predictions."
     st.markdown(f"""
 <div style='background:white;border-radius:14px;padding:1.4rem;border:1px solid #E2E8F0;box-shadow:0 2px 10px rgba(0,0,0,0.04);margin-bottom:1rem;animation:floatUp 0.8s ease both;'>
-    <div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>🤖 Scored Campaign Prospects</div>
-    <div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
-        Probabilities and binary propensity conversion predictions for targeted marketing execution.<br>
-        {score_text}
-    </div>
+<div style='font-size:1.1rem;font-weight:700;color:#0F172A;margin-bottom:0.3rem;'>🤖 Scored Campaign Prospects</div>
+<div style='font-size:0.8rem;color:#64748B;margin-bottom:0.8rem;'>
+Probabilities and binary propensity conversion predictions for targeted marketing execution.<br>
+{score_text}
+</div>
 </div>
 """, unsafe_allow_html=True)
     if score_df is not None:

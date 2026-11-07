@@ -34,12 +34,12 @@ if df is None:
 # ── HEADER ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        💡 Strategic Business Recommendations
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Consulting-grade strategic action steps grounded in empirical analytics and statistical evidence.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+💡 Strategic Business Recommendations
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Consulting-grade strategic action steps grounded in empirical analytics and statistical evidence.
+</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -79,19 +79,19 @@ st.markdown(divider(), unsafe_allow_html=True)
 st.markdown(section_header("🔬", "Academic & Consulting Governance: Correlation vs Causation"), unsafe_allow_html=True)
 st.markdown("""
 <div style='background:white;border-radius:14px;padding:1.4rem;border:1px solid #E2E8F0;box-shadow:0 2px 12px rgba(0,0,0,0.04);animation:floatUp 0.6s ease both;'>
-    <div style='display:flex;gap:1.5rem;flex-wrap:wrap;'>
-        <div style='flex:1;min-width:260px;'>
-            <div style='font-weight:700;color:#1E3A8A;margin-bottom:0.4rem;'>1. Empirical Association vs True Causality</div>
-            <div style='color:#475569;font-size:0.85rem;line-height:1.5;'>
-                Observed correlations (such as high Wine/Meat spend associating with higher campaign acceptance) represent <b>historical customer affinity</b>. They do not guarantee that increasing customer wine consumption will trigger campaign conversion.
-            </div>
-        </div>
-        <div style='flex:1;min-width:260px;'>
-            <div style='font-weight:700;color:#0D9488;margin-bottom:0.4rem;'>2. Recommended Next Step: A/B Experimentation</div>
-            <div style='color:#475569;font-size:0.85rem;line-height:1.5;'>
-                Before scaling major marketing budgets into the proposed initiatives, the organization should run a <b>randomized controlled trial (RCT)</b> with a 10% uncontacted holdout group to measure true incremental sales lift.
-            </div>
-        </div>
-    </div>
+<div style='display:flex;gap:1.5rem;flex-wrap:wrap;'>
+<div style='flex:1;min-width:260px;'>
+<div style='font-weight:700;color:#1E3A8A;margin-bottom:0.4rem;'>1. Empirical Association vs True Causality</div>
+<div style='color:#475569;font-size:0.85rem;line-height:1.5;'>
+Observed correlations (such as high Wine/Meat spend associating with higher campaign acceptance) represent <b>historical customer affinity</b>. They do not guarantee that increasing customer wine consumption will trigger campaign conversion.
+</div>
+</div>
+<div style='flex:1;min-width:260px;'>
+<div style='font-weight:700;color:#0D9488;margin-bottom:0.4rem;'>2. Recommended Next Step: A/B Experimentation</div>
+<div style='color:#475569;font-size:0.85rem;line-height:1.5;'>
+Before scaling major marketing budgets into the proposed initiatives, the organization should run a <b>randomized controlled trial (RCT)</b> with a 10% uncontacted holdout group to measure true incremental sales lift.
+</div>
+</div>
+</div>
 </div>
 """, unsafe_allow_html=True)

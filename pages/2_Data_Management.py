@@ -23,12 +23,12 @@ inject_styles()
 # ── HEADER ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        📁 Data Upload & Management
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Ingest marketing files, inspect schema quality, identify anomalies, and execute automated data cleaning.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+📁 Data Upload & Management
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Ingest marketing files, inspect schema quality, identify anomalies, and execute automated data cleaning.
+</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -106,13 +106,13 @@ with tab3:
 
     st.markdown("""
 <div style='background:white;border-radius:12px;padding:1.2rem;border:1px solid #E2E8F0;box-shadow:0 2px 10px rgba(0,0,0,0.03);margin-bottom:1rem;'>
-    <h4 style='margin:0 0 0.5rem;color:#1E3A8A;'>Pipeline Operations</h4>
-    <ol style='margin:0;padding-left:1.2rem;color:#475569;font-size:0.85rem;line-height:1.6;'>
-        <li><b>Education-Stratified Median Imputation:</b> Missing Income records are imputed using the median income of the customer's specific education group.</li>
-        <li><b>Chronological Outlier Capping:</b> Detects birth years &lt; 1920 (Age &gt; 100) and caps them to median demographic cohort age.</li>
-        <li><b>Categorical Normalization:</b> Converts anomalous marital entries (<code>Alone</code>, <code>Absurd</code>, <code>YOLO</code>) into standard <code>Single</code> category.</li>
-        <li><b>Domain Feature Engineering:</b> Calculates <code>Total_Spending</code>, <code>Total_Purchases</code>, <code>Children</code>, <code>Is_Parent</code>, and <code>Customer_Tenure_Days</code>.</li>
-    </ol>
+<h4 style='margin:0 0 0.5rem;color:#1E3A8A;'>Pipeline Operations</h4>
+<ol style='margin:0;padding-left:1.2rem;color:#475569;font-size:0.85rem;line-height:1.6;'>
+<li><b>Education-Stratified Median Imputation:</b> Missing Income records are imputed using the median income of the customer's specific education group.</li>
+<li><b>Chronological Outlier Capping:</b> Detects birth years &lt; 1920 (Age &gt; 100) and caps them to median demographic cohort age.</li>
+<li><b>Categorical Normalization:</b> Converts anomalous marital entries (<code>Alone</code>, <code>Absurd</code>, <code>YOLO</code>) into standard <code>Single</code> category.</li>
+<li><b>Domain Feature Engineering:</b> Calculates <code>Total_Spending</code>, <code>Total_Purchases</code>, <code>Children</code>, <code>Is_Parent</code>, and <code>Customer_Tenure_Days</code>.</li>
+</ol>
 </div>
 """, unsafe_allow_html=True)
 

@@ -37,12 +37,12 @@ if df is None:
 # ── HEADER ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        🎯 Customer Segmentation
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Unsupervised K-Means clustering with Elbow Method &amp; Silhouette diagnostics.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+🎯 Customer Segmentation
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Unsupervised K-Means clustering with Elbow Method &amp; Silhouette diagnostics.
+</p>
 </div>
 """, unsafe_allow_html=True)
 

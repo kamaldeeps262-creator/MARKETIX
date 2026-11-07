@@ -35,12 +35,12 @@ if df is None:
 # ── HEADER ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style='animation:fadeSlideDown 0.5s ease both;'>
-    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
-        🔍 Customer Insights & Purchasing Behaviour
-    </h1>
-    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
-        Explore demographic distributions, spending tiers, and product affinity drivers.
-    </p>
+<h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+🔍 Customer Insights & Purchasing Behaviour
+</h1>
+<p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+Explore demographic distributions, spending tiers, and product affinity drivers.
+</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -100,7 +100,7 @@ with tab_spending:
     st.markdown(section_header("💰", "Spending Tiers vs Campaign Conversion Rate"), unsafe_allow_html=True)
     st.markdown("""
 <div style='background:linear-gradient(135deg, #EFF6FF, #DBEAFE);border-radius:12px;padding:1rem 1.2rem;border:1px solid #BFDBFE;margin-bottom:1rem;color:#1E40AF;font-size:0.85rem;'>
-    💡 <b>Empirical Hypothesis Confirmed:</b> Customers in the top spending quartile convert at <b>over 3x the baseline rate</b> compared to low spenders.
+💡 <b>Empirical Hypothesis Confirmed:</b> Customers in the top spending quartile convert at <b>over 3x the baseline rate</b> compared to low spenders.
 </div>
 """, unsafe_allow_html=True)
 

@@ -1,14 +1,11 @@
 """
-MARKETIX: An Intelligent Marketing Analytics and Customer Insights Platform
-Main Application Entry Point
+MARKETIX: Main Application Entry Point — Redesigned with animations & modern UI
 """
 
 import streamlit as st
-import pandas as pd
 from pathlib import Path
 import sys
 
-# Ensure MARKETIX root is in python path
 ROOT_DIR = Path(__file__).resolve().parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
@@ -17,51 +14,20 @@ from database.connection import get_db_status, init_db
 from src.data_loader import load_dataset
 from src.data_cleaning import clean_marketing_data
 from src.analytics import compute_kpis
+from src.styles import (inject_styles, kpi_card, kpi_grid, hero_banner,
+                         module_card, health_row, status_pill, divider)
 
-# Page configuration
 st.set_page_config(
-    page_title="MARKETIX - Marketing Intelligence",
+    page_title="MARKETIX – Marketing Intelligence",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-# Custom Styling
-st.markdown("""
-<style>
-    .main-header {
-        background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%);
-        color: white;
-        padding: 2rem;
-        border-radius: 12px;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-    .metric-card {
-        background-color: white;
-        border: 1px solid #E2E8F0;
-        border-radius: 10px;
-        padding: 1.2rem;
-        text-align: center;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .status-badge {
-        display: inline-block;
-        padding: 0.35rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.85rem;
-        font-weight: 600;
-    }
-    .status-online { background-color: #DCFCE7; color: #166534; }
-    .status-fallback { background-color: #FEF3C7; color: #92400E; }
-    .status-offline { background-color: #FEE2E2; color: #991B1B; }
-</style>
-""", unsafe_allow_html=True)
+inject_styles()
 
 
 @st.cache_data
 def get_cached_data():
-    """Loads and cleans the default marketing dataset once."""
     df_raw, _ = load_dataset()
     if df_raw is not None:
         df_clean, report = clean_marketing_data(df_raw)
@@ -69,115 +35,158 @@ def get_cached_data():
     return None, None
 
 
-# Session State Management
 if "cleaned_df" not in st.session_state:
     df_clean, rep = get_cached_data()
     st.session_state["cleaned_df"] = df_clean
     st.session_state["clean_report"] = rep
 
-# Sidebar
+# ── SIDEBAR ──────────────────────────────────────────────────────────────────
 with st.sidebar:
     logo_path = ROOT_DIR / "assets" / "logo.png"
     if logo_path.exists():
         st.image(str(logo_path), use_container_width=True)
     else:
-        st.title("📊 MARKETIX")
-    
-    st.markdown("---")
-    st.subheader("System Infrastructure")
-    
-    # Live Database Health Indicator
+        st.markdown("<h2 style='color:white;margin:0;'>📊 MARKETIX</h2>", unsafe_allow_html=True)
+
+    st.markdown("<hr style='border-color:rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+
     db_status = get_db_status()
     if db_status.get("is_postgres"):
-        st.markdown(f'<span class="status-badge status-online">● PostgreSQL Active</span>', unsafe_allow_html=True)
-        st.caption(f"Host: localhost:5432 | DB: marketix")
+        kind, label = "success", "PostgreSQL Connected"
+        dot, db_desc = "green", "localhost:5432 · marketix"
     elif db_status.get("connected"):
-        st.markdown(f'<span class="status-badge status-fallback">● Local SQLite Active</span>', unsafe_allow_html=True)
-        st.caption("PostgreSQL daemon inactive; running seamlessly on local SQLite engine.")
+        kind, label = "warning", "SQLite Fallback Active"
+        dot, db_desc = "yellow", "PostgreSQL offline – local embedded DB"
     else:
-        st.markdown(f'<span class="status-badge status-offline">● DB Disconnected</span>', unsafe_allow_html=True)
-        st.error(db_status.get("message", "Database connection failed."))
+        kind, label = "danger", "No Database"
+        dot, db_desc = "red", "Check configuration"
 
-    st.markdown("---")
-    st.markdown("### Industrial Alignment")
+    from ml.evaluate import get_model_status
+    ml_stat = get_model_status()
+    auc_val  = ml_stat.get("metrics", {}).get("roc_auc", 0.0)
+    ml_color = "green" if ml_stat.get("trained") else "yellow"
+    ml_label = f"Model Trained · AUC {auc_val:.3f}" if ml_stat.get("trained") else "Model not trained yet"
+
+    df_active = st.session_state.get("cleaned_df")
+    data_color = "green" if df_active is not None else "yellow"
+    data_label = f"{len(df_active):,} records active" if df_active is not None else "No data loaded"
+
+    st.markdown(
+        health_row(dot, label, db_desc) +
+        health_row(data_color, "Data Engine", data_label) +
+        health_row(ml_color, "ML Pipeline", ml_label),
+        unsafe_allow_html=True
+    )
+
+    st.markdown("<hr style='border-color:rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
     st.markdown("""
-    - **BCG X:** Marketing Decision Analytics
-    - **IBM:** Data Analysis with Python
-    - **Deloitte:** Business Simulation & Insights
-    """)
-    st.caption("B.Tech 3rd-Year Industrial Training Project")
-
-
-# Header Banner
-st.markdown("""
-<div class="main-header">
-    <h1 style="margin:0; font-size: 2.2rem; font-weight: 800;">MARKETIX</h1>
-    <h3 style="margin-top:0.3rem; font-weight: 400; color: #93C5FD; font-size: 1.15rem;">
-        An Intelligent Marketing Analytics and Customer Insights Platform
-    </h3>
-    <p style="margin-top:0.8rem; font-size: 0.95rem; color: #E2E8F0; max-width: 900px;">
-        Empowering organizations to evaluate multi-channel marketing campaigns, decode customer purchasing patterns, 
-        cluster customer personas with unsupervised Machine Learning, and predict individual campaign conversion likelihoods.
-    </p>
-</div>
+<p style='color:#94A3B8;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:0.6rem;'>
+    Certificate Alignment
+</p>
+<p style='color:#CBD5E1;font-size:0.82rem;line-height:1.6;'>
+    🔵 <b style='color:#93C5FD;'>BCG X</b> — Decision Analytics<br>
+    🟣 <b style='color:#C4B5FD;'>IBM</b> — Data Analysis · Python<br>
+    🟢 <b style='color:#6EE7B7;'>Deloitte</b> — Business Simulation
+</p>
+<p style='color:#475569;font-size:0.72rem;margin-top:0.8rem;'>B.Tech 3rd-Year · Industrial Training</p>
 """, unsafe_allow_html=True)
 
-# Overview Metrics Glance
-df_active = st.session_state.get("cleaned_df")
+# ── HERO BANNER ──────────────────────────────────────────────────────────────
+st.markdown(hero_banner(
+    title="MARKETIX",
+    subtitle="An Intelligent Marketing Analytics & Customer Insights Platform",
+    description=(
+        "Empowering marketing teams to benchmark multi-wave campaign performance, uncover customer behaviour patterns, "
+        "cluster customer personas with K-Means, and predict individual campaign conversion likelihoods with Logistic Regression — "
+        "all in one unified, real-time intelligence platform."
+    ),
+    badges=["Python 3.13", "Streamlit", "Scikit-Learn", "PostgreSQL", "ReportLab",
+            "Plotly", "Pandas", "NumPy", "SQLAlchemy"]
+), unsafe_allow_html=True)
+
+# ── KPI OVERVIEW ─────────────────────────────────────────────────────────────
 if df_active is not None:
     kpis = compute_kpis(df_active)
-    c1, c2, c3, c4, c5, c6 = st.columns(6)
-    with c1:
-        st.metric("Total Customers", f"{kpis['total_customers']:,}")
-    with c2:
-        st.metric("Campaigns Analyzed", f"{kpis['total_campaigns']}")
-    with c3:
-        st.metric("Positive Responses", f"{kpis['positive_responses']:,}")
-    with c4:
-        st.metric("Acceptance Rate", f"{kpis['response_rate']:.2f}%")
-    with c5:
-        st.metric("Average Income", f"${kpis['average_income']:,.0f}")
-    with c6:
-        st.metric("Average Spending", f"${kpis['average_spending']:,.0f}")
+    st.markdown(kpi_grid(
+        kpi_card("👥", f"{kpis['total_customers']:,}",    "Total Customers",    "2,240 analysed"),
+        kpi_card("📣", f"{kpis['total_campaigns']}",      "Campaigns Analysed", "5 historical waves"),
+        kpi_card("✅", f"{kpis['positive_responses']:,}", "Positive Responses", "Latest campaign"),
+        kpi_card("📈", f"{kpis['response_rate']:.2f}%",  "Acceptance Rate",    "Industry avg: 10–12%"),
+        kpi_card("💰", f"${kpis['average_income']:,.0f}", "Average Income",     "Across all segments"),
+        kpi_card("🛒", f"${kpis['average_spending']:,.0f}","Avg Spending",      "6 product categories"),
+    ), unsafe_allow_html=True)
 
-st.markdown("---")
+st.markdown(divider(), unsafe_allow_html=True)
 
-# Navigation & Architecture
-col_left, col_right = st.columns([3, 2])
+# ── MODULE NAVIGATION GRID ───────────────────────────────────────────────────
+st.markdown("""
+<p style='font-size:1.1rem;font-weight:800;color:#0F172A;margin-bottom:0.3rem;'>Platform Modules</p>
+<p style='font-size:0.82rem;color:#64748B;margin-bottom:0.8rem;'>Select any module from the left sidebar to begin your analysis.</p>
+""", unsafe_allow_html=True)
 
-with col_left:
-    st.subheader("Platform Architecture & Modules")
+st.markdown(
+    '<div class="module-grid">' +
+    module_card("1", "📊", "Dashboard",          "Live KPIs, campaign acceptance charts, and product spend breakdowns.") +
+    module_card("2", "📁", "Data Management",    "Upload CSV/Excel, detect anomalies, clean data, and sync to database.") +
+    module_card("3", "📈", "Campaign Analysis",  "Compare conversion rates across all campaigns and purchase channels.") +
+    module_card("4", "🔍", "Customer Insights",  "Age cohorts, income tiers, education, and product affinity drivers.") +
+    module_card("5", "🎯", "Segmentation",       "K-Means clustering with Elbow & Silhouette diagnostics and personas.") +
+    module_card("6", "🤖", "Response Prediction","Logistic Regression predictor with batch scoring and ROC evaluation.") +
+    module_card("7", "💡", "Recommendations",    "Data-driven consulting actions distinguishing correlation from causation.") +
+    module_card("8", "📑", "Reports",            "One-click executive PDF briefs and structured CSV data exports.") +
+    '</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(divider(), unsafe_allow_html=True)
+
+# ── SYSTEM HEALTH DETAIL ─────────────────────────────────────────────────────
+h1, h2 = st.columns([3, 2])
+with h1:
     st.markdown("""
-    MARKETIX is engineered following a clean **Layered Enterprise Architecture**:
-    
-    1. **📊 Module 1: Dashboard** - High-level executive KPIs, conversion benchmarks, and spend patterns.
-    2. **📁 Module 2: Data Management** - Dataset ingestion (CSV/Excel), schema validation, and missing value imputation.
-    3. **📈 Module 3: Campaign Performance** - Detailed comparison across marketing campaigns and purchase channels.
-    4. **🔍 Module 4: Customer Insights** - Demographic distributions, spending tiers, and product affinity analysis.
-    5. **🎯 Module 5: Customer Segmentation** - Unsupervised K-Means clustering, elbow curves, and persona profiles.
-    6. **🤖 Module 6: Campaign Response Prediction** - Supervised Logistic Regression model with interactive inference & ROC evaluation.
-    7. **💡 Module 7: Business Recommendations** - Rule-based consulting suggestions distinguishing correlation from causation.
-    8. **📑 Module 8: Reports & Downloads** - PDF executive summary generation and CSV dataset exports.
-    """)
+<p style='font-size:1.05rem;font-weight:800;color:#0F172A;margin-bottom:0.3rem;'>
+    Five-Layer Enterprise Architecture
+</p>
+<p style='font-size:0.82rem;color:#64748B;margin-bottom:0.8rem;'>
+    Clean decoupled design ensures maintainability, testability, and presentation resilience.
+</p>
+""", unsafe_allow_html=True)
+    layers = [
+        ("#3B82F6", "Presentation",    "Streamlit multi-page web app · 8 specialized modules"),
+        ("#0D9488", "Application",     "Python analytics engine · data validation · business logic"),
+        ("#8B5CF6", "Database",        "PostgreSQL schema · SQLite offline fallback · 6 relational tables"),
+        ("#F59E0B", "Machine Learning","K-Means clustering · Logistic Regression · Joblib artifacts"),
+        ("#EC4899", "Output",          "Plotly charts · ReportLab PDF · CSV exports"),
+    ]
+    for color, name, desc in layers:
+        st.markdown(f"""
+<div style='display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.9rem;
+            background:white;border-radius:10px;border:1px solid #E2E8F0;
+            margin-bottom:0.5rem;box-shadow:0 1px 6px rgba(0,0,0,0.04);
+            animation:floatUp 0.5s ease both;'>
+    <div style='width:10px;height:36px;border-radius:5px;background:{color};flex-shrink:0;'></div>
+    <div>
+        <div style='font-size:0.82rem;font-weight:700;color:#0F172A;'>{name} Layer</div>
+        <div style='font-size:0.74rem;color:#64748B;'>{desc}</div>
+    </div>
+</div>""", unsafe_allow_html=True)
 
-with col_right:
-    st.subheader("Quick System Health")
-    with st.container(border=True):
-        st.markdown("**Data Engine Status**")
-        if df_active is not None:
-            st.success(f"✓ Active Dataset: {len(df_active)} records loaded & preprocessed.")
-        else:
-            st.warning("No dataset loaded. Upload via Module 2.")
-            
-        st.markdown("**Database Synchronization**")
-        st.info(f"Database Type: **{db_status.get('type', 'Unknown')}**")
-        
-        st.markdown("**Machine Learning Status**")
-        from ml.evaluate import get_model_status
-        ml_stat = get_model_status()
-        if ml_stat.get("trained"):
-            st.success(f"✓ Model: Logistic Regression ({ml_stat.get('version')}) | AUC: {ml_stat.get('metrics', {}).get('roc_auc', 0.90):.3f}")
-        else:
-            st.warning("Model ready to train from Module 6.")
-
-    st.markdown("👉 *Select any module from the left navigation sidebar to explore.*")
+with h2:
+    st.markdown("""
+<p style='font-size:1.05rem;font-weight:800;color:#0F172A;margin-bottom:0.3rem;'>
+    Live System Status
+</p>
+""", unsafe_allow_html=True)
+    # ML metrics if available
+    if ml_stat.get("trained"):
+        m = ml_stat.get("metrics", {})
+        for metric, val, color in [
+            ("ROC-AUC",   m.get("roc_auc", 0)*100,   "#3B82F6"),
+            ("Accuracy",  m.get("accuracy", 0)*100,   "#10B981"),
+            ("Recall",    m.get("recall", 0)*100,     "#8B5CF6"),
+            ("F1-Score",  m.get("f1_score", 0)*100,   "#F59E0B"),
+        ]:
+            from src.styles import animated_progress
+            st.markdown(animated_progress(metric, val, color), unsafe_allow_html=True)
+    else:
+        st.info("Train the model in Module 6 to view live ML metrics here.")

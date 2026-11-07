@@ -1,7 +1,5 @@
 """
-MARKETIX Module 5: Customer Segmentation (Unsupervised Machine Learning)
-Groups customers based on behavioural similarities using K-Means Clustering,
-StandardScaler normalization, Elbow method, and Silhouette analysis.
+MARKETIX Module 5: Customer Segmentation — Animated Redesign
 """
 
 import streamlit as st
@@ -13,6 +11,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
+from src.styles import inject_styles, section_header, divider, persona_card, kpi_card, kpi_grid
 from src.data_loader import load_dataset
 from src.data_cleaning import clean_marketing_data
 from ml.segmentation import calculate_elbow_and_silhouette, perform_kmeans_clustering
@@ -21,16 +20,13 @@ from database.queries import save_customer_segments_to_db
 import plotly.graph_objects as go
 import plotly.express as px
 
-st.set_page_config(page_title="Customer Segmentation | MARKETIX", page_icon="🎯", layout="wide")
+st.set_page_config(page_title="Segmentation | MARKETIX", page_icon="🎯", layout="wide")
+inject_styles()
 
-st.title("🎯 Customer Segmentation (K-Means Clustering)")
-st.caption("Group customers by purchasing behaviors, income, and engagement using Unsupervised Machine Learning.")
-
-# Load active data
 if "cleaned_df" not in st.session_state or st.session_state["cleaned_df"] is None:
     df_raw, _ = load_dataset()
     if df_raw is not None:
-        df_clean, report = clean_marketing_data(df_raw)
+        df_clean, _ = clean_marketing_data(df_raw)
         st.session_state["cleaned_df"] = df_clean
 
 df = st.session_state.get("cleaned_df")
@@ -38,106 +34,146 @@ if df is None:
     st.warning("⚠️ No dataset loaded. Please go to Data Management.")
     st.stop()
 
-# Sidebar / Expander controls for Hyperparameters
-with st.expander("⚙️ Clustering Configuration & Optimal K Diagnostics", expanded=False):
-    st.markdown("**Elbow Method & Silhouette Score Evaluation**")
-    diag_res = calculate_elbow_and_silhouette(df, max_k=7)
-    
-    col_elbow, col_sil = st.columns(2)
-    with col_elbow:
-        fig_elbow = go.Figure()
-        fig_elbow.add_trace(go.Scatter(x=diag_res["k_range"], y=diag_res["inertias"], mode="lines+markers", line=dict(color="#1E3A8A", width=2)))
-        fig_elbow.update_layout(title="<b>Elbow Curve (Inertia vs K)</b>", xaxis_title="Number of Clusters (K)", yaxis_title="Inertia (WCSS)", template="plotly_white", height=300)
-        st.plotly_chart(fig_elbow, use_container_width=True)
+# ── HEADER ───────────────────────────────────────────────────────────────────
+st.markdown("""
+<div style='animation:fadeSlideDown 0.5s ease both;'>
+    <h1 style='margin:0;font-size:1.9rem;font-weight:900;color:#0F172A;'>
+        🎯 Customer Segmentation
+    </h1>
+    <p style='color:#64748B;font-size:0.88rem;margin:0.3rem 0 1.2rem;'>
+        Unsupervised K-Means clustering with Elbow Method &amp; Silhouette diagnostics.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
-    with col_sil:
-        fig_sil = go.Figure()
-        fig_sil.add_trace(go.Bar(x=diag_res["k_range"], y=diag_res["silhouette_scores"], marker_color="#0D9488"))
-        fig_sil.update_layout(title="<b>Silhouette Scores by K</b>", xaxis_title="Number of Clusters (K)", yaxis_title="Silhouette Score", template="plotly_white", height=300)
-        st.plotly_chart(fig_sil, use_container_width=True)
-        
-    st.info(f"Optimal cluster count suggested by Silhouette Analysis: **K = {diag_res['optimal_k_by_silhouette']}**")
+# ── ELBOW & SILHOUETTE DIAGNOSTICS ───────────────────────────────────────────
+with st.expander("📐  Optimal K Diagnostics — Elbow Curve & Silhouette Scores", expanded=False):
+    with st.spinner("Computing cluster quality metrics for K = 2 … 7 …"):
+        diag = calculate_elbow_and_silhouette(df, max_k=7)
 
-# Interactive Cluster Selector
-k_col1, k_col2 = st.columns([1, 3])
-with k_col1:
-    n_clusters = st.slider("Select Number of Clusters (K)", min_value=2, max_value=6, value=4)
+    d1, d2 = st.columns(2)
+    with d1:
+        fig_e = go.Figure()
+        fig_e.add_trace(go.Scatter(
+            x=diag["k_range"], y=diag["inertias"],
+            mode="lines+markers",
+            line=dict(color="#1E3A8A", width=3),
+            marker=dict(size=9, color="#3B82F6", line=dict(width=2, color="white")),
+            name="Inertia (WCSS)"
+        ))
+        fig_e.update_layout(
+            title="<b>Elbow Method — Inertia vs Number of Clusters</b>",
+            xaxis_title="K  (Number of Clusters)",
+            yaxis_title="Within-Cluster Sum of Squares",
+            template="plotly_white", height=300,
+            margin=dict(l=20, r=20, t=50, b=30)
+        )
+        st.plotly_chart(fig_e, use_container_width=True)
 
-# Execute Clustering
-df_segmented, profile_df, ml_metrics = perform_kmeans_clustering(df, n_clusters=n_clusters)
-st.session_state["segmented_df"] = df_segmented
+    with d2:
+        best_k = diag["optimal_k_by_silhouette"]
+        bar_colors = ["#F59E0B" if k == best_k else "#CBD5E1" for k in diag["k_range"]]
+        fig_s = go.Figure()
+        fig_s.add_trace(go.Bar(
+            x=diag["k_range"], y=diag["silhouette_scores"],
+            marker_color=bar_colors, text=[f"{s:.3f}" for s in diag["silhouette_scores"]],
+            textposition="outside"
+        ))
+        fig_s.update_layout(
+            title="<b>Silhouette Score by K — Best K highlighted</b>",
+            xaxis_title="K  (Number of Clusters)",
+            yaxis_title="Silhouette Score",
+            template="plotly_white", height=300,
+            margin=dict(l=20, r=20, t=50, b=30)
+        )
+        st.plotly_chart(fig_s, use_container_width=True)
 
-with k_col2:
-    st.metric(
-        "Clustering Quality",
-        f"Silhouette Score: {ml_metrics['silhouette_score']}",
-        delta=f"{n_clusters} Distinct Personas Identified",
-        help="Silhouette score measures how similar an object is to its own cluster compared to other clusters."
-    )
+    st.info(f"📌 Optimal cluster count by Silhouette analysis: **K = {diag['optimal_k_by_silhouette']}**  "
+            f"(highest inter-cluster separation score = **{max(diag['silhouette_scores']):.4f}**)")
 
-st.markdown("---")
+st.markdown(divider(), unsafe_allow_html=True)
 
-# Visualizations: 2D Scatter & 3D Interactive
-col_viz, col_prof = st.columns([3, 2])
+# ── K SELECTOR + METRICS ──────────────────────────────────────────────────────
+st.markdown(section_header("⚙️", "Clustering Configuration", "Drag slider to change the number of personas"),
+            unsafe_allow_html=True)
 
-with col_viz:
-    fig_scatter = plot_segment_scatter(df_segmented)
-    st.plotly_chart(fig_scatter, use_container_width=True)
+ctrl_a, ctrl_b = st.columns([1, 3])
+with ctrl_a:
+    n_clusters = st.slider("Number of Clusters (K)", 2, 6, 4)
 
-with col_prof:
-    st.subheader("Segment Persona Profiles")
-    st.dataframe(
-        profile_df.style.format({
-            "Customer_Count": "{:,}",
-            "Income": "${:,.0f}",
-            "Total_Spending": "${:,.0f}",
-            "Total_Purchases": "{:.1f}",
-            "Age": "{:.1f} yrs",
-            "Response_Rate_%": "{:.1f}%"
-        }),
-        use_container_width=True,
-        hide_index=True
-    )
+# Run clustering
+with st.spinner("Running K-Means algorithm …"):
+    df_seg, profile_df, ml_metrics = perform_kmeans_clustering(df, n_clusters=n_clusters)
+st.session_state["segmented_df"] = df_seg
 
-st.markdown("---")
+sil = ml_metrics["silhouette_score"]
+sil_quality = "Excellent" if sil > 0.5 else ("Good" if sil > 0.3 else "Moderate")
+with ctrl_b:
+    st.markdown(kpi_grid(
+        kpi_card("🔢", str(n_clusters), "Customer Clusters"),
+        kpi_card("📏", f"{sil:.4f}", "Silhouette Score"),
+        kpi_card("⭐", sil_quality, "Cluster Quality"),
+        kpi_card("👥", f"{len(df):,}", "Customers Segmented"),
+    ), unsafe_allow_html=True)
 
-# Persona Descriptions
-st.subheader("Customer Persona Summary")
-cols = st.columns(n_clusters)
+st.markdown(divider(), unsafe_allow_html=True)
+
+# ── SCATTER PLOT + PROFILE TABLE ─────────────────────────────────────────────
+st.markdown(section_header("🗺️", "Cluster Visualisation — Income vs Total Spending"), unsafe_allow_html=True)
+sc_col, tbl_col = st.columns([3, 2])
+
+with sc_col:
+    st.plotly_chart(plot_segment_scatter(df_seg), use_container_width=True)
+
+with tbl_col:
+    st.markdown("<p style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.5rem;'>Cluster Profiles</p>",
+                unsafe_allow_html=True)
+    fmt = {}
+    if "Income" in profile_df.columns:         fmt["Income"] = "${:,.0f}"
+    if "Total_Spending" in profile_df.columns:  fmt["Total_Spending"] = "${:,.0f}"
+    if "Response_Rate_%" in profile_df.columns: fmt["Response_Rate_%"] = "{:.1f}%"
+    if "Age" in profile_df.columns:             fmt["Age"] = "{:.0f} yrs"
+    st.dataframe(profile_df.style.format(fmt), use_container_width=True, hide_index=True, height=280)
+
+st.markdown(divider(), unsafe_allow_html=True)
+
+# ── PERSONA CARDS ─────────────────────────────────────────────────────────────
+st.markdown(section_header("🎭", "Customer Persona Cards", "Each cluster translated into an actionable marketing persona"),
+            unsafe_allow_html=True)
+
+PERSONA_META = {
+    "Affluent Champions":      ("🏆", "Premium loyalty rewards, early-access products, concierge engagement."),
+    "Budget Seekers":          ("💸", "High-discount flash deals, value bundles, clearance promotions."),
+    "Cautious Savers":         ("🔒", "Trust-building content, product guarantees, educational drip campaigns."),
+    "High-Value Enthusiasts":  ("🚀", "Seasonal catalog mailings, digital retargeting, multi-channel reminders."),
+}
+
+# Build up to 4 columns
+p_cols = st.columns(min(n_clusters, 4))
 for idx, (_, row) in enumerate(profile_df.iterrows()):
-    with cols[idx]:
-        with st.container(border=True):
-            st.markdown(f"### {row['Segment_Name']}")
-            st.markdown(f"**Size:** {int(row['Customer_Count']):,} customers")
-            st.markdown(f"**Avg Income:** ${row['Income']:,.0f}")
-            st.markdown(f"**Avg Spend:** ${row['Total_Spending']:,.0f}")
-            st.markdown(f"**Response Rate:** {row.get('Response_Rate_%', 0):.1f}%")
-            
-            # Action strategy based on persona
-            if "Affluent" in row["Segment_Name"]:
-                st.caption("Strategy: Premium VIP rewards, luxury bundles, concierge engagement.")
-            elif "Budget" in row["Segment_Name"]:
-                st.caption("Strategy: High-discount clearance coupons, value-oriented flash deals.")
-            elif "Cautious" in row["Segment_Name"]:
-                st.caption("Strategy: Trust-building communications, product guarantees, educational drip campaigns.")
-            else:
-                st.caption("Strategy: Seasonal promotions, catalog marketing, multi-channel reminders.")
+    name   = str(row.get("Segment_Name", f"Cluster {row['Cluster']}"))
+    base   = name.split("(")[0].strip()
+    emoji, strategy = PERSONA_META.get(base, ("🎯", "Review cluster characteristics to define a targeted strategy."))
+    size   = int(row.get("Customer_Count", 0))
+    inc    = float(row.get("Income", 0))
+    spd    = float(row.get("Total_Spending", 0))
+    rr     = float(row.get("Response_Rate_%", 0))
 
-# Database Save & Download
-col_act1, col_act2 = st.columns(2)
-with col_act1:
-    if st.button("💾 Persist Customer Segments to Database", type="primary"):
-        ok, msg = save_customer_segments_to_db(df_segmented)
-        if ok:
-            st.success(f"✓ {msg}")
-        else:
-            st.warning(f"Database notice: {msg}")
+    with p_cols[idx % min(n_clusters, 4)]:
+        st.markdown(persona_card(emoji, name, size, inc, spd, rr, strategy, delay=idx*0.1),
+                    unsafe_allow_html=True)
+        st.markdown("<div style='height:0.5rem'></div>", unsafe_allow_html=True)
 
-with col_act2:
-    csv_segments = df_segmented[["ID", "Cluster", "Segment_Name", "Income", "Total_Spending", "Total_Purchases"]].to_csv(index=False).encode("utf-8")
-    st.download_button(
-        "📥 Download Segmented Customers CSV",
-        data=csv_segments,
-        file_name="MARKETIX_Customer_Segments.csv",
-        mime="text/csv"
-    )
+st.markdown(divider(), unsafe_allow_html=True)
+
+# ── ACTIONS ───────────────────────────────────────────────────────────────────
+act1, act2 = st.columns(2)
+with act1:
+    if st.button("💾  Save Segments to Database", type="primary", use_container_width=True):
+        ok, msg = save_customer_segments_to_db(df_seg)
+        (st.success if ok else st.warning)(msg)
+with act2:
+    csv_seg = df_seg[["ID", "Cluster", "Segment_Name", "Income", "Total_Spending", "Total_Purchases"]].to_csv(index=False).encode()
+    st.download_button("📥  Download Segments CSV", data=csv_seg,
+                       file_name="MARKETIX_Customer_Segments.csv",
+                       mime="text/csv", use_container_width=True)

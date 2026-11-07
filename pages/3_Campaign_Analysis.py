@@ -91,7 +91,7 @@ c_left, c_right = st.columns([3, 2])
 
 with c_left:
     fig_cmp = plot_campaign_comparison(summary_table)
-    st.plotly_chart(fig_cmp, use_container_width=True)
+    st.plotly_chart(fig_cmp, width="stretch")
 
 with c_right:
     st.markdown("<p style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.5rem;'>Campaign Metrics Table</p>", unsafe_allow_html=True)
@@ -99,7 +99,7 @@ with c_right:
         summary_table[["Campaign_Name", "Positive_Responses", "Response_Rate"]].rename(
             columns={"Positive_Responses": "Responses", "Response_Rate": "Acceptance %"}
         ),
-        use_container_width=True,
+        width="stretch",
         hide_index=True
     )
 
@@ -128,10 +128,10 @@ with c_row1:
         )
         fig_eng.update_traces(texttemplate="%{text}%", textposition="outside")
         fig_eng.update_layout(height=350, margin=dict(l=20, r=20, t=30, b=40))
-        st.plotly_chart(fig_eng, use_container_width=True)
+        st.plotly_chart(fig_eng, width="stretch")
 
 with c_row2:
     st.markdown("<p style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.5rem;'>Purchases by Acquisition Channel</p>", unsafe_allow_html=True)
     chan_df = analyze_channel_performance(df)
     fig_chan = plot_channel_comparison(chan_df)
-    st.plotly_chart(fig_chan, use_container_width=True)
+    st.plotly_chart(fig_chan, width="stretch")

@@ -79,7 +79,7 @@ tab1, tab2, tab3 = st.tabs([
 
 with tab1:
     st.markdown(section_header("📋", "Raw Dataset Snapshot", f"Showing first 15 records from {st.session_state.get('current_file_name')}"), unsafe_allow_html=True)
-    st.dataframe(df_raw.head(15), use_container_width=True)
+    st.dataframe(df_raw.head(15), width="stretch")
 
 with tab2:
     st.markdown(section_header("🔍", "Data Hygiene & Anomaly Inspection"), unsafe_allow_html=True)
@@ -91,7 +91,7 @@ with tab2:
                 {"Column": col, "Missing Count": count, "Missing %": round((count / summary['total_rows']) * 100, 2)}
                 for col, count in summary["missing_values"].items()
             ])
-            st.dataframe(missing_df, use_container_width=True, hide_index=True)
+            st.dataframe(missing_df, width="stretch", hide_index=True)
             st.warning("⚠️ **Income column contains nulls.** Our pipeline implements education-stratified median imputation to preserve demographic relationships.")
         else:
             st.success("✅ No missing values detected in the dataset!")
@@ -99,7 +99,7 @@ with tab2:
     with c_p2:
         st.markdown("<p style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.4rem;'>Schema & Types</p>", unsafe_allow_html=True)
         schema_df = pd.DataFrame([{"Feature": k, "Type": v} for k, v in summary["dtypes"].items()])
-        st.dataframe(schema_df, use_container_width=True, height=280, hide_index=True)
+        st.dataframe(schema_df, width="stretch", height=280, hide_index=True)
 
 with tab3:
     st.markdown(section_header("🧹", "Automated Data Cleaning Pipeline", "Applies median imputation, anomaly normalization, and KPI feature engineering"), unsafe_allow_html=True)
@@ -116,7 +116,7 @@ with tab3:
 </div>
 """, unsafe_allow_html=True)
 
-    if st.button("🚀  Execute Data Cleaning & Synchronize to Database", type="primary", use_container_width=True):
+    if st.button("🚀  Execute Data Cleaning & Synchronize to Database", type="primary", width="stretch"):
         with st.spinner("Processing records and syncing with database engine..."):
             df_cleaned, report = clean_marketing_data(df_raw)
             st.session_state["cleaned_df"] = df_cleaned
@@ -150,5 +150,5 @@ with tab3:
             data=csv_data,
             file_name="MARKETIX_Cleaned_Marketing_Dataset.csv",
             mime="text/csv",
-            use_container_width=True
+            width="stretch"
         )

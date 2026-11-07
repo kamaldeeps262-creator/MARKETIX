@@ -89,10 +89,10 @@ r1a, r1b = st.columns([3, 2])
 camp_analysis = analyze_campaign_performance(df_f)
 with r1a:
     st.plotly_chart(plot_campaign_comparison(camp_analysis["summary_table"]),
-                    use_container_width=True)
+                    width="stretch")
 with r1b:
     spend_df = compute_category_spend_breakdown(df_f)
-    st.plotly_chart(plot_spend_donut(spend_df), use_container_width=True)
+    st.plotly_chart(plot_spend_donut(spend_df), width="stretch")
 
 st.markdown(divider(), unsafe_allow_html=True)
 
@@ -103,9 +103,9 @@ st.markdown(section_header("🛍️", "Purchase Channels & Income–Spend Correl
 r2a, r2b = st.columns([2, 3])
 with r2a:
     channel_df = compute_purchase_channel_breakdown(df_f)
-    st.plotly_chart(plot_channel_comparison(channel_df), use_container_width=True)
+    st.plotly_chart(plot_channel_comparison(channel_df), width="stretch")
 with r2b:
-    st.plotly_chart(plot_income_vs_spending(df_f), use_container_width=True)
+    st.plotly_chart(plot_income_vs_spending(df_f), width="stretch")
 
 st.markdown(divider(), unsafe_allow_html=True)
 
@@ -120,7 +120,7 @@ with tb_col:
             "Positive_Responses": "{:,}",
             "Response_Rate": "{:.2f}%"
         }),
-        use_container_width=True, hide_index=True
+        width="stretch", hide_index=True
     )
 
 with prog_col:

@@ -91,7 +91,7 @@ with st.container():
         file_name="MARKETIX_Executive_Marketing_Report.pdf",
         mime="application/pdf",
         type="primary",
-        use_container_width=True
+        width="stretch"
     )
 
 st.markdown(divider(), unsafe_allow_html=True)
@@ -111,7 +111,7 @@ with exp_c1:
 </div>
 """, unsafe_allow_html=True)
     csv_clean = df.to_csv(index=False).encode("utf-8")
-    st.download_button("Download Cleaned Dataset (CSV)", data=csv_clean, file_name="marketix_cleaned_dataset.csv", mime="text/csv", use_container_width=True)
+    st.download_button("Download Cleaned Dataset (CSV)", data=csv_clean, file_name="marketix_cleaned_dataset.csv", mime="text/csv", width="stretch")
 
 with exp_c2:
     st.markdown(f"""
@@ -124,7 +124,7 @@ with exp_c2:
 </div>
 """, unsafe_allow_html=True)
     csv_camp = camp_results["summary_table"].to_csv(index=False).encode("utf-8")
-    st.download_button("Download Campaign Summary (CSV)", data=csv_camp, file_name="marketix_campaign_performance.csv", mime="text/csv", use_container_width=True)
+    st.download_button("Download Campaign Summary (CSV)", data=csv_camp, file_name="marketix_campaign_performance.csv", mime="text/csv", width="stretch")
 
 exp_c3, exp_c4 = st.columns(2)
 with exp_c3:
@@ -141,7 +141,7 @@ with exp_c3:
 """, unsafe_allow_html=True)
     if seg_df is not None:
         csv_seg = seg_df[["ID", "Cluster", "Segment_Name", "Income", "Total_Spending", "Total_Purchases"]].to_csv(index=False).encode("utf-8")
-        st.download_button("Download Customer Segments (CSV)", data=csv_seg, file_name="marketix_customer_segments.csv", mime="text/csv", use_container_width=True)
+        st.download_button("Download Customer Segments (CSV)", data=csv_seg, file_name="marketix_customer_segments.csv", mime="text/csv", width="stretch")
     else:
         st.info("Run Customer Segmentation (Module 5) first to enable this export.")
 
@@ -159,6 +159,6 @@ with exp_c4:
 """, unsafe_allow_html=True)
     if score_df is not None:
         csv_pred = score_df[["ID", "Income", "Total_Spending", "Predicted_Probability", "Predicted_Response"]].to_csv(index=False).encode("utf-8")
-        st.download_button("Download Scored Prospects (CSV)", data=csv_pred, file_name="marketix_scored_predictions.csv", mime="text/csv", use_container_width=True)
+        st.download_button("Download Scored Prospects (CSV)", data=csv_pred, file_name="marketix_scored_predictions.csv", mime="text/csv", width="stretch")
     else:
         st.info("Run Batch Scoring in Response Prediction (Module 6) first to enable this export.")

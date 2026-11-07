@@ -68,7 +68,7 @@ with st.expander("📐  Optimal K Diagnostics — Elbow Curve & Silhouette Score
             template="plotly_white", height=300,
             margin=dict(l=20, r=20, t=50, b=30)
         )
-        st.plotly_chart(fig_e, use_container_width=True)
+        st.plotly_chart(fig_e, width="stretch")
 
     with d2:
         best_k = diag["optimal_k_by_silhouette"]
@@ -86,7 +86,7 @@ with st.expander("📐  Optimal K Diagnostics — Elbow Curve & Silhouette Score
             template="plotly_white", height=300,
             margin=dict(l=20, r=20, t=50, b=30)
         )
-        st.plotly_chart(fig_s, use_container_width=True)
+        st.plotly_chart(fig_s, width="stretch")
 
     st.info(f"📌 Optimal cluster count by Silhouette analysis: **K = {diag['optimal_k_by_silhouette']}**  "
             f"(highest inter-cluster separation score = **{max(diag['silhouette_scores']):.4f}**)")
@@ -123,7 +123,7 @@ st.markdown(section_header("🗺️", "Cluster Visualisation — Income vs Total
 sc_col, tbl_col = st.columns([3, 2])
 
 with sc_col:
-    st.plotly_chart(plot_segment_scatter(df_seg), use_container_width=True)
+    st.plotly_chart(plot_segment_scatter(df_seg), width="stretch")
 
 with tbl_col:
     st.markdown("<p style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.5rem;'>Cluster Profiles</p>",
@@ -133,7 +133,7 @@ with tbl_col:
     if "Total_Spending" in profile_df.columns:  fmt["Total_Spending"] = "${:,.0f}"
     if "Response_Rate_%" in profile_df.columns: fmt["Response_Rate_%"] = "{:.1f}%"
     if "Age" in profile_df.columns:             fmt["Age"] = "{:.0f} yrs"
-    st.dataframe(profile_df.style.format(fmt), use_container_width=True, hide_index=True, height=280)
+    st.dataframe(profile_df.style.format(fmt), width="stretch", hide_index=True, height=280)
 
 st.markdown(divider(), unsafe_allow_html=True)
 
@@ -169,11 +169,11 @@ st.markdown(divider(), unsafe_allow_html=True)
 # ── ACTIONS ───────────────────────────────────────────────────────────────────
 act1, act2 = st.columns(2)
 with act1:
-    if st.button("💾  Save Segments to Database", type="primary", use_container_width=True):
+    if st.button("💾  Save Segments to Database", type="primary", width="stretch"):
         ok, msg = save_customer_segments_to_db(df_seg)
         (st.success if ok else st.warning)(msg)
 with act2:
     csv_seg = df_seg[["ID", "Cluster", "Segment_Name", "Income", "Total_Spending", "Total_Purchases"]].to_csv(index=False).encode()
     st.download_button("📥  Download Segments CSV", data=csv_seg,
                        file_name="MARKETIX_Customer_Segments.csv",
-                       mime="text/csv", use_container_width=True)
+                       mime="text/csv", width="stretch")

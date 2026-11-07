@@ -171,7 +171,7 @@ with tab_batch:
         st.dataframe(
             scored_df[["ID","Income","Total_Spending",
                         "Predicted_Probability","Response_Likelihood"]].head(30),
-            use_container_width=True, hide_index=True
+            width="stretch", hide_index=True
         )
         csv_sc = scored_df[["ID","Income","Total_Spending",
                               "Predicted_Probability","Predicted_Response"]].to_csv(index=False).encode()
@@ -204,10 +204,10 @@ with tab_eval:
 
     ev1, ev2 = st.columns(2)
     with ev1:
-        st.plotly_chart(plot_confusion_matrix(res["confusion_matrix"]), use_container_width=True)
+        st.plotly_chart(plot_confusion_matrix(res["confusion_matrix"]), width="stretch")
     with ev2:
         roc = res["roc_curve"]
-        st.plotly_chart(plot_roc_curve(roc["fpr"], roc["tpr"], roc["auc"]), use_container_width=True)
+        st.plotly_chart(plot_roc_curve(roc["fpr"], roc["tpr"], roc["auc"]), width="stretch")
 
     st.markdown(section_header("🔑", "Top Predictive Feature Drivers",
                 "Logistic Regression coefficients ranked by influence on response probability"),
@@ -227,9 +227,9 @@ with tab_eval:
         template="plotly_white", height=400,
         margin=dict(l=20, r=60, t=50, b=30)
     )
-    st.plotly_chart(fig_coef, use_container_width=True)
+    st.plotly_chart(fig_coef, width="stretch")
 
-    if st.button("🔄  Retrain Model", use_container_width=True):
+    if st.button("🔄  Retrain Model", width="stretch"):
         with st.spinner("Retraining …"):
             st.session_state["train_results"] = train_logistic_regression(df)
         st.success("✅ Model retrained and saved!")

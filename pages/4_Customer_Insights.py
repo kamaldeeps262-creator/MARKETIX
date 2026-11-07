@@ -76,7 +76,7 @@ with tab_demo:
             df_age = pd.DataFrame(list(age_dist.items()), columns=["Age Group", "Count"])
             fig_age = px.bar(df_age, x="Age Group", y="Count", color="Count", color_continuous_scale="Teal", template="plotly_white")
             fig_age.update_layout(height=320, margin=dict(l=10, r=10, t=20, b=30), showlegend=False)
-            st.plotly_chart(fig_age, use_container_width=True)
+            st.plotly_chart(fig_age, width="stretch")
 
     with d2:
         st.markdown("<p style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.4rem;'>Education Level</p>", unsafe_allow_html=True)
@@ -85,7 +85,7 @@ with tab_demo:
             df_edu = pd.DataFrame(list(edu_dist.items()), columns=["Education", "Count"])
             fig_edu = px.pie(df_edu, names="Education", values="Count", hole=0.45, template="plotly_white")
             fig_edu.update_layout(height=320, margin=dict(l=10, r=10, t=20, b=30))
-            st.plotly_chart(fig_edu, use_container_width=True)
+            st.plotly_chart(fig_edu, width="stretch")
 
     with d3:
         st.markdown("<p style='font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.4rem;'>Marital Status</p>", unsafe_allow_html=True)
@@ -94,7 +94,7 @@ with tab_demo:
             df_mar = pd.DataFrame(list(mar_dist.items()), columns=["Status", "Count"])
             fig_mar = px.bar(df_mar, x="Status", y="Count", color="Count", color_continuous_scale="Blues", template="plotly_white")
             fig_mar.update_layout(height=320, margin=dict(l=10, r=10, t=20, b=30), showlegend=False)
-            st.plotly_chart(fig_mar, use_container_width=True)
+            st.plotly_chart(fig_mar, width="stretch")
 
 with tab_spending:
     st.markdown(section_header("💰", "Spending Tiers vs Campaign Conversion Rate"), unsafe_allow_html=True)
@@ -119,7 +119,7 @@ with tab_spending:
         )
         fig_tier.update_traces(texttemplate="%{text:.2f}%", textposition="outside")
         fig_tier.update_layout(height=350, showlegend=False, margin=dict(l=20, r=20, t=30, b=40))
-        st.plotly_chart(fig_tier, use_container_width=True)
+        st.plotly_chart(fig_tier, width="stretch")
 
     with t_c2:
         st.dataframe(
@@ -130,7 +130,7 @@ with tab_spending:
                 "Avg_Purchases": "{:.1f}",
                 "Response_Rate": "{:.2f}%"
             }),
-            use_container_width=True,
+            width="stretch",
             hide_index=True
         )
 
@@ -151,7 +151,7 @@ with tab_affinity:
             )
             fig_aff.update_traces(texttemplate="%{text:+.1f}%", textposition="outside")
             fig_aff.update_layout(height=350, margin=dict(l=20, r=20, t=30, b=40))
-            st.plotly_chart(fig_aff, use_container_width=True)
+            st.plotly_chart(fig_aff, width="stretch")
 
         with aff_2:
             st.dataframe(
@@ -160,6 +160,6 @@ with tab_affinity:
                     "Non_Responders_Avg_Spend": "${:,.2f}",
                     "Spend_Difference_%": "{:+.1f}%"
                 }),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True
             )

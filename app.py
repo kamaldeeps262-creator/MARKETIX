@@ -44,7 +44,7 @@ if "cleaned_df" not in st.session_state:
 with st.sidebar:
     logo_path = ROOT_DIR / "assets" / "logo.png"
     if logo_path.exists():
-        st.image(str(logo_path), use_container_width=True)
+        st.image(str(logo_path), width="stretch")
     else:
         st.markdown("<h2 style='color:white;margin:0;'>📊 MARKETIX</h2>", unsafe_allow_html=True)
 

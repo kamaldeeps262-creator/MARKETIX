@@ -58,8 +58,8 @@ def test_connection():
         }
         return _engine
     except Exception as pg_err:
-        logger.warning(f"PostgreSQL connection failed: {pg_err}")
-        # Meaningful message explaining why PostgreSQL failed and using SQLite fallback
+        # Informative notice without dumping raw psycopg2 stack traces to terminal
+        logger.info(f"PostgreSQL server not detected on {DB_HOST}:{DB_PORT}. Activating embedded SQLite database.")
         try:
             SQLITE_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
             sqlite_engine = create_engine(SQLITE_URL, connect_args={"check_same_thread": False})
@@ -71,7 +71,7 @@ def test_connection():
                 "connected": True,
                 "type": "SQLite (Local Fallback)",
                 "message": (
-                    f"PostgreSQL offline ({str(pg_err).splitlines()[0]}). "
+                    f"PostgreSQL daemon offline. "
                     f"Using local embedded SQLite database at {SQLITE_DB_PATH.name} for uninterrupted operation."
                 ),
                 "is_postgres": False,

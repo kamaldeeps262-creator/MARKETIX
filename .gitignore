@@ -1,4 +1,26 @@
-# Python
+# =====================================================================
+# MARKETIX — Comprehensive Production .gitignore
+# Hides sensitive environment secrets, credentials, caches, and OS files
+# =====================================================================
+
+# Environment variables & sensitive credentials (NEVER commit these)
+.env
+.env.*
+*.env
+.env.local
+.env.development
+.env.production
+!.env.example
+.streamlit/secrets.toml
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+secrets/
+credentials/
+
+# Python compiled bytecode & caching
 __pycache__/
 *.py[cod]
 *$py.class
@@ -20,25 +42,45 @@ wheels/
 .installed.cfg
 *.egg
 
-# Virtual Environment
+# Virtual environments
 .venv/
 env/
 venv/
 ENV/
+env.bak/
+venv.bak/
 
-# Environment Variables
-.env
-
-# Streamlit
-.streamlit/
-
-# OS
+# Operating System temporary and metadata files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+[Dd]esktop.ini
 
-# IDE
-.vscode/
+# IDEs and Editors
 .idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
 
-# Reports generated
-reports/*.pdf
+# Logs, databases and temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.bak
+*.tmp
+*.temp
+
+# Large Archive backups (keep repo lightweight)
+*.zip
+*.tar.gz
+*.rar
+*.7z

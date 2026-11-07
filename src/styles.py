@@ -438,30 +438,36 @@ html, body, [class*="css"] {
 .module-card:nth-child(8) { animation-delay: 0.40s; }
 
 /* ═══════════════════════════════════════════
-   HEALTH STATUS ROWS
+   HEALTH STATUS ROWS (Sidebar & Dashboards)
 ═══════════════════════════════════════════ */
 .health-row {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.9rem;
     border-radius: 10px;
-    background: #F8FAFC;
+    background: #FFFFFF;
     margin-bottom: 0.6rem;
     border: 1px solid #E2E8F0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.health-row:hover {
+    transform: translateX(2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
 }
 .health-dot {
-    width: 10px; height: 10px;
+    width: 9px; height: 9px;
     border-radius: 50%;
     flex-shrink: 0;
 }
-.health-dot.green  { background: #22C55E; animation: pulseGlow 2s infinite; }
+.health-dot.green  { background: #10B981; animation: pulseGlow 2s infinite; }
 .health-dot.yellow { background: #F59E0B; animation: pulseGlow 2.5s infinite; }
 .health-dot.red    { background: #EF4444; }
 .health-info { flex: 1; }
-.health-label { font-size: 0.8rem; font-weight: 600; color: #334155; }
-.health-desc  { font-size: 0.72rem; color: #64748B; }
-.health-value { font-size: 0.78rem; font-weight: 700; color: #1E3A8A; white-space: nowrap; }
+.health-label { font-size: 0.8rem; font-weight: 700; color: #1E293B; }
+.health-desc  { font-size: 0.72rem; color: #64748B; margin-top: 0.1rem; }
+.health-value { font-size: 0.75rem; font-weight: 700; color: #1E3A8A; white-space: nowrap; }
 
 /* ═══════════════════════════════════════════
    TABLE STYLING
@@ -474,25 +480,57 @@ html, body, [class*="css"] {
 }
 
 /* ═══════════════════════════════════════════
-   SIDEBAR POLISH
+   CRISP MODERN LIGHT SIDEBAR
 ═══════════════════════════════════════════ */
+section[data-testid="stSidebar"] {
+    background-color: #F8FAFC !important;
+    border-right: 1px solid #E2E8F0 !important;
+}
 section[data-testid="stSidebar"] > div:first-child {
-    background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
-    padding-top: 1.5rem;
+    background-color: #F8FAFC !important;
+    padding-top: 1.2rem;
 }
 section[data-testid="stSidebar"] .stMarkdown p,
 section[data-testid="stSidebar"] .stMarkdown li,
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] .stCaption p {
-    color: #CBD5E1 !important;
+    color: #334155 !important;
 }
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3 {
-    color: #F1F5F9 !important;
+    color: #0F172A !important;
+    font-weight: 800 !important;
 }
 section[data-testid="stSidebar"] hr {
-    border-color: rgba(255,255,255,0.1) !important;
+    border: none !important;
+    border-top: 1px solid #E2E8F0 !important;
+    margin: 1rem 0 !important;
+}
+
+/* Streamlit Sidebar Navigation Links */
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
+    padding-top: 0.5rem !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] li a {
+    color: #334155 !important;
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    padding: 0.45rem 0.75rem !important;
+    transition: all 0.2s ease !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] li a:hover {
+    background-color: #EDF2F7 !important;
+    color: #1E3A8A !important;
+    transform: translateX(3px) !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] li a[aria-current="page"] {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%) !important;
+    color: #1E40AF !important;
+    font-weight: 700 !important;
+    border-left: 3px solid #3B82F6 !important;
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.12) !important;
 }
 
 /* ═══════════════════════════════════════════

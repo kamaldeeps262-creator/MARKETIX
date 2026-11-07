@@ -46,9 +46,9 @@ with st.sidebar:
     if logo_path.exists():
         st.image(str(logo_path), width="stretch")
     else:
-        st.markdown("<h2 style='color:white;margin:0;'>📊 MARKETIX</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='color:#0F172A;margin:0;'>📊 MARKETIX</h2>", unsafe_allow_html=True)
 
-    st.markdown("<hr style='border-color:rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:none;border-top:1px solid #E2E8F0;margin:1rem 0;'>", unsafe_allow_html=True)
 
     db_status = get_db_status()
     if db_status.get("is_postgres"):
@@ -78,17 +78,19 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    st.markdown("<hr style='border-color:rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:none;border-top:1px solid #E2E8F0;margin:1rem 0;'>", unsafe_allow_html=True)
     st.markdown("""
-<p style='color:#94A3B8;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:0.6rem;'>
+<div style='background:white;border-radius:10px;padding:0.9rem;border:1px solid #E2E8F0;box-shadow:0 1px 3px rgba(0,0,0,0.02);'>
+<p style='color:#64748B;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin:0 0 0.5rem;'>
 Certificate Alignment
 </p>
-<p style='color:#CBD5E1;font-size:0.82rem;line-height:1.6;'>
-🔵 <b style='color:#93C5FD;'>BCG X</b> — Decision Analytics<br>
-🟣 <b style='color:#C4B5FD;'>IBM</b> — Data Analysis · Python<br>
-🟢 <b style='color:#6EE7B7;'>Deloitte</b> — Business Simulation
+<p style='color:#334155;font-size:0.8rem;line-height:1.7;margin:0;'>
+🔵 <b style='color:#1E40AF;'>BCG X</b> — Decision Analytics<br>
+🟣 <b style='color:#7C3AED;'>IBM</b> — Data Analysis · Python<br>
+🟢 <b style='color:#059669;'>Deloitte</b> — Business Simulation
 </p>
-<p style='color:#475569;font-size:0.72rem;margin-top:0.8rem;'>B.Tech 3rd-Year · Industrial Training</p>
+<p style='color:#94A3B8;font-size:0.72rem;margin:0.6rem 0 0;'>B.Tech 3rd-Year · Industrial Training</p>
+</div>
 """, unsafe_allow_html=True)
 
 # ── HERO BANNER ──────────────────────────────────────────────────────────────
